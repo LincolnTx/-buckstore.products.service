@@ -11,10 +11,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Validations" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <ProjectReference Include="..\buckstore.products.service.domain\buckstore.products.service.domain.csproj" />
     </ItemGroup>
 
