@@ -1,4 +1,5 @@
-﻿using buckstore.products.service.domain.Aggregates.ProductAggregate;
+﻿using System;
+using buckstore.products.service.domain.Aggregates.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -30,6 +31,13 @@ namespace buckstore.products.service.infrastructure.Data.Mappings.Database
                 .HasColumnName("price")
                 .IsRequired();
 
+            builder.OwnsMany(product => product.RateList, pr =>
+            {
+                pr.WithOwner().HasForeignKey("product_id");
+                pr.Property<Guid>("Id");
+                pr.HasKey("Id");
+            });
+            
             builder.Property(product => product.Stock)
                 .HasField("_stockQuantity")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)

@@ -1,4 +1,5 @@
-﻿using buckstore.products.service.domain.SeedWork;
+﻿using System.Collections.Generic;
+using buckstore.products.service.domain.SeedWork;
 
 namespace buckstore.products.service.domain.Aggregates.ProductAggregate
 {
@@ -14,6 +15,7 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
         public int Stock => _stockQuantity;
         private int _categoryId;
         public ProductCategory Category { get; private set; }
+        public ICollection<ProductRate> RateList { get; private set; }
         
         protected Product() { }
 
