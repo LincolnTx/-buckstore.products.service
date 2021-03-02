@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using buckstore.products.service.infrastructure.Data.Mappings.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -9,9 +10,6 @@ namespace buckstore.products.service.infrastructure.Data.Context
 {
 	public class ApplicationDbContext : DbContext
 	{
-		// your db context here
-		// sample: public DbSet<User> User { get; set; }
-
 		private IDbContextTransaction _currentTransaction;
 		public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 		public bool HasActiveTransaction => _currentTransaction != null;
@@ -30,18 +28,18 @@ namespace buckstore.products.service.infrastructure.Data.Context
 			_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 		}
 
-		// protected override void OnConfiguring(DbContextOptionsBuilder options) =>
-		// 	options.UseNpgsql(Environment.GetEnvironmentVariable("ConnectionString"),
-		// 		npgsqlOptionsAction: pgOptions =>
-		// 		{
-		// 			pgOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
-		// 		}
-		// );
+		protected override void OnConfiguring(DbContextOptionsBuilder options) =>
+			options.UseNpgsql(Environment.GetEnvironmentVariable("ConnectionString"),
+				npgsqlOptionsAction: pgOptions =>
+				{
+					pgOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
+				}
+		);
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			// sample: modelBuilder.ApplyConfiguration(new UserMap());
-
+			modelBuilder.ApplyConfiguration(new ProductMap());
+			modelBuilder.ApplyConfiguration(new ProductCategoryMap());
 		}
 
 		public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

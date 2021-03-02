@@ -12,6 +12,7 @@ namespace buckstore.products.service.infrastructure.Data.Repositories
 		public Repository( ApplicationDbContext applicationDbContext)
 		{
 			_applicationDbContext = applicationDbContext;
+			_dbSet = applicationDbContext.Set<TEntity>();
 		}
 
 		public void Add(TEntity obj)
