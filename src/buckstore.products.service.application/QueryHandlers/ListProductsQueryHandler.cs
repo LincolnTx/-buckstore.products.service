@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using buckstore.products.service.application.Queries;
 using buckstore.products.service.application.Queries.ResponseDTOs;
+using buckstore.products.service.application.Queries.ViewModels;
 
 namespace buckstore.products.service.application.QueryHandlers
 {
@@ -22,7 +23,7 @@ namespace buckstore.products.service.application.QueryHandlers
                                           "ON p.\"_categoryId\" = pc.id " +
                                           "ORDER BY p.\"Id\" OFFSET @pageNumber ROWS FETCH NEXT @pageSize ROWS ONLY";
 
-                var data = await dbConnection.QueryAsync<ProductResponseDto>(sqlCommand, new
+                var data = await dbConnection.QueryAsync<ListProductsVW>(sqlCommand, new
                 {
                     pageSize = request.PageSize,
                     pageNumber = request.PageNumber

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using buckstore.products.service.application.Queries.ViewModels;
 
 namespace buckstore.products.service.application.Queries.ResponseDTOs
 {
     public class ListProductResponse
     {
-        public  IEnumerable<ProductResponseDto> Products { get; set; }
+        public  IEnumerable<ListProductsVW> Products { get; set; }
 
-        public ListProductResponse(IEnumerable<ProductResponseDto> products)
+        public ListProductResponse(IEnumerable<ListProductsVW> products)
         {
             Products = products;
         }

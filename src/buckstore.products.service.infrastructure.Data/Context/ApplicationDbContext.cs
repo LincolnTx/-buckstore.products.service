@@ -5,6 +5,7 @@ using buckstore.products.service.infrastructure.Data.Mappings.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 
 namespace buckstore.products.service.infrastructure.Data.Context
 {
@@ -32,9 +33,11 @@ namespace buckstore.products.service.infrastructure.Data.Context
 			options.UseNpgsql(Environment.GetEnvironmentVariable("ConnectionString"),
 				npgsqlOptionsAction: pgOptions =>
 				{
-					pgOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
+					pgOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30),
+						errorCodesToAdd: null);
 				}
-		);
+			);
+				//.LogTo(Console.WriteLine, LogLevel.Information);
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
