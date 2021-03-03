@@ -1,6 +1,7 @@
 ﻿using System;
 using MediatR;
 using System.Threading.Tasks;
+using buckstore.products.service.application.Commands;
 using buckstore.products.service.application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using buckstore.products.service.domain.Exceptions;
@@ -28,10 +29,20 @@ namespace buckstore.products.service.api.v1.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Guid productCode)
         {
+            // mudar query para pegar as avaliaçõs do produto 
             var response = await _mediator.Send(new FindProductByIdQuery(productCode));
 
             return Response(200, response);
         }
+
+        [HttpPut("evaluate")]
+        public async Task<IActionResult> AddProductRate([FromBody] AddProductRateCommand productRateCommand)
+        {
+            var response = await _mediator.Send(productRateCommand);
+
+            return Response(200, response);
+        }
+        
     }
     
     

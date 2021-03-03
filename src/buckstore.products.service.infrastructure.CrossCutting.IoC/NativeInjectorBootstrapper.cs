@@ -1,8 +1,11 @@
-﻿using System;
-using AutoMapper.Configuration;
-using buckstore.products.service.domain.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using buckstore.products.service.domain.Aggregates.ProductAggregate;
+using buckstore.products.service.domain.Exceptions;
+using buckstore.products.service.domain.SeedWork;
+using buckstore.products.service.infrastructure.Data.Context;
+using buckstore.products.service.infrastructure.Data.Repositories.ProductRepository;
+using buckstore.products.service.infrastructure.Data.UnitOfWork;
 
 namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 {
@@ -16,8 +19,9 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 
 		public static void RegisterData(IServiceCollection services)
 		{
-			// here goes your repository injection
-			// sample: services.AddScoped<IUserRepository, UserRepository>();
+			services.AddDbContext<ApplicationDbContext>();
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
+			services.AddScoped<IProductRepository, ProductRepository>();
 		}
 
 		public static void RegisterMediatR(IServiceCollection services)

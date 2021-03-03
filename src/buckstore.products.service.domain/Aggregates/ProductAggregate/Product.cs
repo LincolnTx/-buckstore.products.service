@@ -56,5 +56,10 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
             _stockQuantity = stock;
             _categoryId = categoryId;
         }
+        
+        public void AddEvaluationToProduct(ProductRate rate)
+        {
+            RateList.Add(rate);
+        }
     }
 }
