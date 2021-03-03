@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
- using buckstore.products.service.api.v1.Filters;
- using buckstore.products.service.domain.Exceptions;
- using MediatR;
- using Microsoft.AspNetCore.Mvc;
+using buckstore.products.service.api.v1.Filters;
+using buckstore.products.service.domain.Exceptions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace buckstore.products.service.api.v1.Controllers
 {
-	[Route("your-project-name/[controller]")]
+	[Route("products/[controller]")]
 	[ServiceFilter(typeof(GlobalExceptionFilterAttribute))]
 	public class BaseController : Controller
 	{

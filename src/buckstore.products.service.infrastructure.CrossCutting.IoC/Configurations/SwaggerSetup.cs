@@ -15,11 +15,9 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
 				s.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Version = "v1",
-					Title = "Your Api Name",
-					Description = "Some description",
-					Contact = new OpenApiContact { Name = "YourName", Email = "youremail@email.com" }
-					//you can add a contact URI with you want
-					// Contact = new OpenApiContact { Name = "Lincoln", Email = "email@gmail.com", Url = new Uri("https://yoursite.com") }
+					Title = "BuckStore Products API",
+					Description = "Api responsável pela interações entre cliente e produtos da loja BuckStore",
+					Contact = new OpenApiContact { Name = "Lincoln Teixeira", Email = "lincolnsf98@gmail.com" }
 				});
 			});
 		}
@@ -30,7 +28,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
 			app.UseSwagger();
 			app.UseSwaggerUI(c =>
 			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "A dotnet CQRS template made by Lincoln Teixeira");
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "BuckStore Products Api");
 			});
 		}
 	}
