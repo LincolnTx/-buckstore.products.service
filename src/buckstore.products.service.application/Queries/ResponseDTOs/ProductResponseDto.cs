@@ -26,21 +26,23 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
             ProductEvaluations = new List<ProductRateDto>();
         }
 
-        public void MergeRate(double rateValue, string comment, string username, string surname)
+        public void MergeRate(Guid rateId, double rateValue, string comment, string username, string surname)
         {
-            ProductEvaluations.Add(new ProductRateDto(rateValue, comment, username, surname));
+            ProductEvaluations.Add(new ProductRateDto(rateId, rateValue, comment, username, surname));
         }
     }
 
     public class ProductRateDto
     {
+        public Guid RateId { get; set; }
         public double RateValue { get; set; }
         public string Comment { get; set; }
         public string UserName { get; set; }
         public string Surname { get; set; }
 
-        public ProductRateDto(double rateValue, string comment, string userName, string surname)
+        public ProductRateDto(Guid rateId, double rateValue, string comment, string userName, string surname)
         {
+            RateId = rateId;
             RateValue = rateValue;
             Comment = comment;
             UserName = userName;

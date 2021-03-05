@@ -29,7 +29,6 @@ namespace buckstore.products.service.api.v1.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Guid productCode)
         {
-            // mudar query para pegar as avaliaçõs do produto 
             var response = await _mediator.Send(new FindProductByIdQuery(productCode));
 
             return Response(200, response);
@@ -42,6 +41,15 @@ namespace buckstore.products.service.api.v1.Controllers
 
             return Response(200, response);
         }
+
+        [HttpDelete("evaluate/delete")]
+        public async Task<IActionResult> DeleteProductRate([FromBody] DeleteProductRateCommand deleteProductRateCommand)
+        {
+            var response = await _mediator.Send(deleteProductRateCommand);
+
+            return Response(200, response);
+        }
+        
         
     }
     

@@ -30,8 +30,8 @@ namespace buckstore.products.service.application.QueryHandlers
                 DefaultTypeMap.MatchNamesWithUnderscores = true;
                 const string sqlCommand = "SELECT p.\"Id\", p.description ,p.name, p.price, p.stock_quantity, " +
                                           "pc.id \"categoryId\", pc.description category, "+
-                                          "pr.\"RateValue\", pr.\"Comment\", u.\"name\" username, u.surname " +
-                                          "FROM products.product p " +
+                                          "pr.\"RateValue\", pr.\"Comment\", u.\"name\" username, u.surname, " +
+                                          "pr.\"Id\" as RateId FROM products.product p " +
                                           "INNER JOIN products.\"ProductRate\" pr on pr.product_id = p.\"Id\" " +
                                           "LEFT JOIN auth.\"User\" u on u.\"Id\" = pr.\"UserId\" " +
                                           "LEFT JOIN products.product_category pc " +
@@ -47,7 +47,7 @@ namespace buckstore.products.service.application.QueryHandlers
                     var product = _mapper.Map<ProductResponseDto>(data.First());
                     foreach (var item in data.ToList())
                     {
-                        product.MergeRate(item.RateValue, item.Comment, item.username, item.surname);
+                        product.MergeRate(item.RateId,item.RateValue, item.Comment, item.username, item.surname);
                     }
                     
                     return product;

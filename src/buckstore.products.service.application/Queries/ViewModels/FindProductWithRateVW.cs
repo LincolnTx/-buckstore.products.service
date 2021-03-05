@@ -13,6 +13,7 @@ namespace buckstore.products.service.application.Queries.ViewModels
         public string category { get; set; }
         public double RateValue { get; set; }
         public string Comment { get; set; }
+        public Guid RateId { get; set; }
         public string username { get; set; }
         public string surname { get; set; }
     }
