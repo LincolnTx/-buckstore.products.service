@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using buckstore.products.service.domain.SeedWork;
 
 namespace buckstore.products.service.domain.Aggregates.ProductAggregate
@@ -60,6 +62,18 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
         public void AddEvaluationToProduct(ProductRate rate)
         {
             RateList.Add(rate);
+        }
+
+        public void RemoveProductEvaluation(Guid evaluationId)
+        {
+            var removeItem = RateList.ToList().FirstOrDefault(rate => rate.Id == evaluationId);
+            if (removeItem != null)
+            {
+                RateList.Remove(removeItem);
+                return;
+            }
+            
+            throw new NullReferenceException("Esse usuário não tem uma avaliação para esse produto");
         }
     }
 }
