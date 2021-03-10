@@ -75,5 +75,10 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
             
             throw new NullReferenceException("Esse usuário não tem uma avaliação para esse produto");
         }
+
+        public ProductRate FindEvaluateByUserId(Guid userId)
+        {
+            return RateList.ToList().FirstOrDefault(rate => rate.UserId == userId);
+        }
     }
 }

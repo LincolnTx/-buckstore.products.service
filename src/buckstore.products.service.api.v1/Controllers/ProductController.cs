@@ -49,10 +49,5 @@ namespace buckstore.products.service.api.v1.Controllers
 
             return Response(200, response);
         }
-        
-        
     }
-    
-    
-
 }

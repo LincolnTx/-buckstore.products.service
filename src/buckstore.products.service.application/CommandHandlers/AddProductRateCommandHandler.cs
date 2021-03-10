@@ -37,8 +37,13 @@ namespace buckstore.products.service.application.CommandHandlers
                 
                 return false;
             }
-
+            var evaluation = product.FindEvaluateByUserId(request.UserId);
             var userEvaluation = new ProductRate(request.RatePoints, request.Comment, request.UserId);
+
+            if (evaluation != null)
+            {
+                product.RemoveProductEvaluation(evaluation.Id);
+            }
             product.AddEvaluationToProduct(userEvaluation);
 
             if (await Commit())
