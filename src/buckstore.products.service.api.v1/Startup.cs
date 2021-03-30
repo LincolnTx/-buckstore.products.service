@@ -45,8 +45,15 @@ namespace buckstore.products.service.api.v1
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 
+			app.UseCors(builder =>
+			{
+				builder.WithOrigins("*");
+				builder.AllowAnyOrigin();
+				builder.AllowAnyMethod();
+				builder.AllowAnyHeader();
+			});
 			app.UseRouting();
 
 			app.UseAuthorization();
