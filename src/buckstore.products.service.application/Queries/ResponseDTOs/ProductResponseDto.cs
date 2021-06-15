@@ -13,6 +13,7 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
         public int StockQuantity { get; set; }
         public int CategoryId { get; set; }
         public string Category { get; set; }
+        public decimal AverageRate { get; set; }
         public List<ProductRateDto> ProductEvaluations { get; set; }
 
         public ProductResponseDto(FindProductWithRateVW product)

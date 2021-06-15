@@ -27,6 +27,7 @@ namespace buckstore.products.service.application.QueryHandlers
         {
             using (var dbConnection = DbConnection)
             {
+                double averageRate = 0;
                 DefaultTypeMap.MatchNamesWithUnderscores = true;
                 const string sqlCommand = "SELECT p.\"Id\", p.description ,p.name, p.price, p.stock_quantity, " +
                                           "pc.id \"categoryId\", pc.description category, "+
@@ -44,12 +45,15 @@ namespace buckstore.products.service.application.QueryHandlers
                         productCode = request.ProductCode
                     });
 
-                    var product = _mapper.Map<ProductResponseDto>(data.First());
-                    foreach (var item in data.ToList())
+                    var findProductWithRateVws = data.ToList();
+                    var product = _mapper.Map<ProductResponseDto>(findProductWithRateVws.First());
+                    foreach (var item in findProductWithRateVws.ToList())
                     {
                         product.MergeRate(item.RateId,item.RateValue, item.Comment, item.username, item.surname);
+                        averageRate += item.RateValue;
                     }
                     
+                    product.AverageRate = new decimal(averageRate / findProductWithRateVws.ToList().Count);
                     return product;
                 }
                 catch (Exception e)
