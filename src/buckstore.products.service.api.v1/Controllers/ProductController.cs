@@ -5,6 +5,7 @@ using buckstore.products.service.application.Commands;
 using buckstore.products.service.application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using buckstore.products.service.domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace buckstore.products.service.api.v1.Controllers
 {
@@ -35,14 +36,18 @@ namespace buckstore.products.service.api.v1.Controllers
         }
 
         [HttpPut("evaluate")]
+        [Authorize]
         public async Task<IActionResult> AddProductRate([FromBody] AddProductRateCommand productRateCommand)
         {
+            var userId = Guid.Parse(GetTokenClaim("id"));
+            productRateCommand.UserId = userId; 
             var response = await _mediator.Send(productRateCommand);
 
             return Response(200, response);
         }
 
         [HttpDelete("evaluate/delete")]
+        [Authorize]
         public async Task<IActionResult> DeleteProductRate([FromBody] DeleteProductRateCommand deleteProductRateCommand)
         {
             var response = await _mediator.Send(deleteProductRateCommand);

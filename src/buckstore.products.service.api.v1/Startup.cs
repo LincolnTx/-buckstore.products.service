@@ -34,6 +34,7 @@ namespace buckstore.products.service.api.v1
 			services.AddMediatR(typeof(CommandHandler));
 			services.AddScoped<GlobalExceptionFilterAttribute>();
 			services.AddDatabaseSetup();
+			services.AddAuthenticationSetup();
 			
 			services.AddControllers();
 		}
@@ -54,8 +55,9 @@ namespace buckstore.products.service.api.v1
 				builder.AllowAnyMethod();
 				builder.AllowAnyHeader();
 			});
-			app.UseRouting();
 
+			app.UseRouting();
+			app.UseAuthentication();
 			app.UseAuthorization();
 			app.UseSwaggerSetup();
 

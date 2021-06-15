@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using buckstore.products.service.api.v1.Filters;
 using buckstore.products.service.domain.Exceptions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace buckstore.products.service.api.v1.Controllers
 {
-	[Route("products/[controller]")]
+	[Route("commodities/[controller]")]
 	[ServiceFilter(typeof(GlobalExceptionFilterAttribute))]
 	public class BaseController : Controller
 	{
@@ -40,6 +41,16 @@ namespace buckstore.products.service.api.v1.Controllers
 				success = false,
 				errors = _notifications.GetNotifications()
 			});
+		}
+		
+		protected string GetTokenClaim(string claim)
+		{
+			var header = Request.Headers["Authorization"].ToString();
+			var token = header.Replace("Bearer ", string.Empty);
+
+			var readToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+
+			return readToken.Payload[claim].ToString() ?? string.Empty;
 		}
 	}
 }

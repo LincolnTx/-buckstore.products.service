@@ -24,7 +24,10 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionString": "Server=127.0.0.1;Port=5432;Database=buckstore-development;User Id=postgres;Password=polivel@12;MaxPoolSize=5;Pooling=true;SearchPath=products;"
+        "ConnectionString": "Server=127.0.0.1;Port=5432;Database=buckstore-development;User Id=postgres;Password=polivel@12;MaxPoolSize=5;Pooling=true;SearchPath=products;",
+        "JwtSettings__Secret": "b665f456d3ed4bf09a56842e02de8ab7c5f5cc9c138a476e88369ce815effbb5",
+        "JwtSettings__Audience": "BuckstoreFrontEnd",
+        "JwtSettings__Issuer": "Buckstore"
       }
     }
   }
