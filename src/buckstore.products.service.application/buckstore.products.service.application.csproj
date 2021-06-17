@@ -15,5 +15,10 @@
     <ItemGroup>
       <ProjectReference Include="..\buckstore.products.service.domain\buckstore.products.service.domain.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="EventHandlers\Domain" />
+      <Folder Include="EventHandlers\Integration" />
+    </ItemGroup>
 
 </Project>
