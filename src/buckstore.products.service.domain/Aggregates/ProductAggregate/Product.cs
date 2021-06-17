@@ -28,6 +28,7 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
             _price = price;
             _stockQuantity = stock;
             _categoryId = categoryId;
+            Category = ProductCategory.FromId(_categoryId);
         }
 
         public void AddStock(int quantity)
