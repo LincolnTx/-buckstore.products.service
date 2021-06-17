@@ -35,6 +35,7 @@ namespace buckstore.products.service.api.v1
 			services.AddScoped<GlobalExceptionFilterAttribute>();
 			services.AddDatabaseSetup();
 			services.AddAuthenticationSetup();
+			services.AddKafka(Configuration);
 			
 			services.AddControllers();
 		}
