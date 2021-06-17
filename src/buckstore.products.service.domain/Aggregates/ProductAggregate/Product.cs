@@ -11,8 +11,8 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
         public string Name => _name;
         private string _description;
         public string Description => _description;
-        private double _price;
-        public double Price => _price;
+        private decimal _price;
+        public decimal Price => _price;
         private int _stockQuantity;
         public int Stock => _stockQuantity;
         private int _categoryId;
@@ -21,13 +21,14 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
         
         protected Product() { }
 
-        public Product(string name, string description, double price, int stock, int categoryId)
+        public Product(string name, string description, decimal price, int stock, int categoryId)
         {
             _name = name;
             _description = description;
             _price = price;
             _stockQuantity = stock;
             _categoryId = categoryId;
+            Category = ProductCategory.FromId(_categoryId);
         }
 
         public void AddStock(int quantity)
@@ -45,12 +46,12 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
             return _stockQuantity > 0;
         }
 
-        public void ChangeProductPrice(double newPrice)
+        public void ChangeProductPrice(decimal newPrice)
         {
             _price = newPrice;
         }
 
-        public void UpdateProduct(string name, string description, double price, int stock, int categoryId)
+        public void UpdateProduct(string name, string description, decimal price, int stock, int categoryId)
         {
             _name = name;
             _description = description;

@@ -13,6 +13,8 @@
     
     <ItemGroup>
       <ProjectReference Include="..\buckstore.products.service.application\buckstore.products.service.application.csproj" />
+      <ProjectReference Include="..\buckstore.products.service.bus\buckstore.products.service.bus.csproj" />
+      <ProjectReference Include="..\buckstore.products.service.infra.environment\buckstore.products.service.infra.environment.csproj" />
       <ProjectReference Include="..\buckstore.products.service.infrastructure.Data\buckstore.products.service.infrastructure.Data.csproj" />
     </ItemGroup>
     

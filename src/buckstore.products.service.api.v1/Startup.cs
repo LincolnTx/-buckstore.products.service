@@ -30,11 +30,12 @@ namespace buckstore.products.service.api.v1
 		{
 			services.AddSwaggerSetup();
 			services.AddAutoMapper();
-			services.AddDependencyInjectionSetup();
+			services.AddDependencyInjectionSetup(Configuration);
 			services.AddMediatR(typeof(CommandHandler));
 			services.AddScoped<GlobalExceptionFilterAttribute>();
 			services.AddDatabaseSetup();
 			services.AddAuthenticationSetup();
+			services.AddKafka(Configuration);
 			
 			services.AddControllers();
 		}
