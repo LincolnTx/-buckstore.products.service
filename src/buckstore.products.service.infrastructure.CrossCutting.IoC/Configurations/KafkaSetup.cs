@@ -1,6 +1,8 @@
 ﻿using System;
+using buckstore.products.service.application.IntegrationEvents;
 using buckstore.products.service.infra.environment.Configurations;
 using MassTransit;
+using MassTransit.KafkaIntegration;
 using MassTransit.Registration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +47,8 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
 
         private static void AddProducers(this IRiderRegistrationConfigurator rider)
         {
-            // add producers
+            rider.AddProducer<ProductCreatedIntegrationEvent>(_kafkaConfiguration.ProductsToOrders);
+            rider.AddProducer<ProductUpdatedIntegrationEvent>(_kafkaConfiguration.ProductsToOrders);
         }
     }
 }

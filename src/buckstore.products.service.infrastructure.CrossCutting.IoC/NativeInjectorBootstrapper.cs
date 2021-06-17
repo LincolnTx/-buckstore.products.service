@@ -1,11 +1,14 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using buckstore.products.service.domain.Aggregates.ProductAggregate;
-using buckstore.products.service.domain.Exceptions;
 using buckstore.products.service.domain.SeedWork;
+using buckstore.products.service.domain.Exceptions;
 using buckstore.products.service.infrastructure.Data.Context;
-using buckstore.products.service.infrastructure.Data.Repositories.ProductRepository;
+using buckstore.products.service.application.IntegrationEvents;
 using buckstore.products.service.infrastructure.Data.UnitOfWork;
+using buckstore.products.service.bus.MessageBroker.Kafka.Producers;
+using buckstore.products.service.application.Adapters.MessageBroker;
+using buckstore.products.service.domain.Aggregates.ProductAggregate;
+using buckstore.products.service.infrastructure.Data.Repositories.ProductRepository;
 
 namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 {
@@ -28,6 +31,14 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 		{
 			// injection for Mediator
 			services.AddScoped<INotificationHandler<ExceptionNotification>, ExceptionNotificationHandler>();
+		}
+
+		public static void RegisterEventProducers(IServiceCollection services)
+		{
+			services.AddScoped<IMessageProducer<ProductCreatedIntegrationEvent>, 
+								KafkaProducer<ProductCreatedIntegrationEvent>>();
+			services.AddScoped<IMessageProducer<ProductUpdatedIntegrationEvent>, 
+								KafkaProducer<ProductUpdatedIntegrationEvent>>();
 		}
 	}
 }
