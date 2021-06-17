@@ -1,11 +1,13 @@
 ﻿using System;
-using buckstore.products.service.application.IntegrationEvents;
-using buckstore.products.service.infra.environment.Configurations;
+using GreenPipes;
 using MassTransit;
-using MassTransit.KafkaIntegration;
 using MassTransit.Registration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using buckstore.products.service.application.IntegrationEvents;
+using buckstore.products.service.infra.environment.Configurations;
+using buckstore.products.service.bus.MessageBroker.Kafka.Consumers;
 
 namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurations
 {
@@ -32,7 +34,70 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
                     {
                         k.Host(_kafkaConfiguration.ConnectionString);
                         
-                        //k.TopicEndpoint();
+                        k.TopicEndpoint<OrderReceivedIntegrationEvent>(_kafkaConfiguration.ProductsFromOrders, _kafkaConfiguration.Group,
+                            e =>
+                        {
+                            e.ConfigureConsumer<OrderReceivedConsumer>(ctx);
+                            e.CreateIfMissing(options =>
+                            {
+                                options.NumPartitions = 3;
+                                options.ReplicationFactor = 1;
+                            });
+                        });
+                        
+                        k.TopicEndpoint<ProductCreatedIntegrationEvent>(_kafkaConfiguration.ProductsFromManagerCreate, _kafkaConfiguration.ConnectionString,
+                            e =>
+                        {
+                            e.UseMessageRetry(retryCfg =>
+                            {
+                                retryCfg.Handle<RetryLimitExceededException>();
+                                retryCfg.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(10),
+                                    TimeSpan.FromMinutes(20));
+                                retryCfg.Immediate(5);
+                            });
+                            e.ConfigureConsumer<CreatedProductConsumer>(ctx);
+                            e.CreateIfMissing(options =>
+                            {
+                                options.NumPartitions = 3;
+                                options.ReplicationFactor = 1;
+                            });
+                        });
+                        
+                        k.TopicEndpoint<ProductUpdatedIntegrationEvent>(_kafkaConfiguration.ProductsFromManagerUpdate, _kafkaConfiguration.ConnectionString,
+                            e =>
+                        {
+                            e.UseMessageRetry(retryCfg =>
+                            {
+                                retryCfg.Handle<RetryLimitExceededException>();
+                                retryCfg.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(10),
+                                    TimeSpan.FromMinutes(20));
+                                retryCfg.Immediate(5);
+                            });
+                            e.ConfigureConsumer<UpdatedProductConsumer>(ctx);
+                            e.CreateIfMissing(options =>
+                            {
+                                options.NumPartitions = 3;
+                                options.ReplicationFactor = 1;
+                            });
+                        });
+                        
+                        k.TopicEndpoint<ProductDeletedIntegrationEvent>(_kafkaConfiguration.ProductsFromManagerDelete, _kafkaConfiguration.ConnectionString,
+                            e =>
+                        {
+                            e.UseMessageRetry(retryCfg =>
+                            {
+                                retryCfg.Handle<RetryLimitExceededException>();
+                                retryCfg.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(10),
+                                    TimeSpan.FromMinutes(20));
+                                retryCfg.Immediate(5);
+                            });
+                            e.ConfigureConsumer<DeletedProductConsumer>(ctx);
+                            e.CreateIfMissing(options =>
+                            {
+                                options.NumPartitions = 3;
+                                options.ReplicationFactor = 1;
+                            });
+                        });
                     });
                 });
             });
@@ -42,13 +107,15 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
 
         private static void AddConsumers(this IRegistrationConfigurator rider)
         {
-            // add consumer
+            rider.AddConsumer<OrderReceivedConsumer>();
+            rider.AddConsumer<CreatedProductConsumer>();
+            rider.AddConsumer<UpdatedProductConsumer>();
+            rider.AddConsumer<DeletedProductConsumer>();
         }
 
         private static void AddProducers(this IRiderRegistrationConfigurator rider)
         {
-            rider.AddProducer<ProductCreatedIntegrationEvent>(_kafkaConfiguration.ProductsToOrders);
-            rider.AddProducer<ProductUpdatedIntegrationEvent>(_kafkaConfiguration.ProductsToOrders);
+           // essa api não possui producers ainda
         }
     }
 }

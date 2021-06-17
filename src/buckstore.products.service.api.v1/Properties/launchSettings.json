@@ -32,7 +32,9 @@
         "KafkaConfiguration__Group": "buckstore",
         "KafkaConfiguration__ProductsToOrders": "products-to-orders",
         "KafkaConfiguration__ProductsFromOrders": "order-to-products",
-        "KafkaConfiguration__ProductsFromManager": "manager-to-products"
+        "KafkaConfiguration__ProductsFromManagerCreate": "manager-to-products-create",
+        "KafkaConfiguration__ProductsFromManagerUpdate": "manager-to-products-update",
+        "KafkaConfiguration__ProductsFromManagerDelete": "manager-to-products-delete"
       }
     }
   }

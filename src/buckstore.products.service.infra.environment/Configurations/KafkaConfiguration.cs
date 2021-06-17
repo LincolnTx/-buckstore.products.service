@@ -8,6 +8,8 @@ namespace buckstore.products.service.infra.environment.Configurations
         public string Group { get; set; }
         public string ProductsToOrders {get;set;}
         public string ProductsFromOrders {get;set;}
-        public string ProductsFromManager {get;set;}
+        public string ProductsFromManagerCreate {get;set;}
+        public string ProductsFromManagerUpdate {get;set;}
+        public string ProductsFromManagerDelete {get;set;}
     }
 }

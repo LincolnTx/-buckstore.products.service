@@ -1,8 +1,8 @@
 ﻿using System;
+using MediatR;
 using MassTransit;
 using System.Threading.Tasks;
 using buckstore.products.service.application.IntegrationEvents;
-using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace buckstore.products.service.bus.MessageBroker.Kafka.Consumers

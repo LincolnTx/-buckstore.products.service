@@ -6,17 +6,15 @@ namespace buckstore.products.service.application.IntegrationEvents
     {
 
         public Guid Id { get; set; }
-        public string ProductName { get; set; }
-        public int Quantity { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public int CategoryId { get; set; }
 
-        public ProductCreatedIntegrationEvent(Guid id, string productName, int quantity, decimal price, DateTime timestamp) 
-            : base(timestamp)
+        public ProductCreatedIntegrationEvent() : base(DateTime.Now)
         {
-            Id = id;
-            ProductName = productName;
-            Quantity = quantity;
-            Price = price;
+           
         }
     }
 }
