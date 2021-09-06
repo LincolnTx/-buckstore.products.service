@@ -18,7 +18,6 @@
     
     <ItemGroup>
       <Folder Include="EventHandlers\Domain" />
-      <Folder Include="EventHandlers\Integration" />
     </ItemGroup>
 
 </Project>

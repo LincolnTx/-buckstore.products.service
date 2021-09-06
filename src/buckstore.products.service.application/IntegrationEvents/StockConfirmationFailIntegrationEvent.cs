@@ -6,11 +6,13 @@ namespace buckstore.products.service.application.IntegrationEvents
     {
         public Guid OrderId { get; set; }
         public bool Success { get; set; }
+        public string RejectReason { get; set; }
 
-        public StockConfirmationFailIntegrationEvent(Guid orderId, bool success) : base(DateTime.Now)
+        public StockConfirmationFailIntegrationEvent(Guid orderId, bool success, string rejectReason) : base(DateTime.Now)
         {
             OrderId = orderId;
             Success = success;
+            RejectReason = rejectReason;
         }
     }
 }

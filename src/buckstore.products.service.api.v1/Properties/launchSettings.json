@@ -31,7 +31,7 @@
         "KafkaConfiguration__ConnectionString": "localhost:9092",
         "KafkaConfiguration__Group": "buckstore",
         "KafkaConfiguration__ProductsToOrders": "products-to-orders",
-        "KafkaConfiguration__ProductsFromOrders": "order-to-products",
+        "KafkaConfiguration__ProductsFromOrders": "order-to-products-stock-confirmation",
         "KafkaConfiguration__ProductsFromManagerCreate": "manager-to-products-create",
         "KafkaConfiguration__ProductsStockResponseSuccess": "product-to-order-stock-success",
         "KafkaConfiguration__ProductsStockResponseFail": "product-to-order-stock-fail",

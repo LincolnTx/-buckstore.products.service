@@ -7,9 +7,9 @@ namespace buckstore.products.service.application.IntegrationEvents
     {
         public Guid OrderId { get; set; }
 
-        public IEnumerable<ProductsFromOrderDto> OrderProducts { get; set; }
+        public List<ProductsFromOrderDto> Products { get; set; }
 
-        public OrderReceivedIntegrationEvent(DateTime timestamp) : base(timestamp)
+        public OrderReceivedIntegrationEvent() : base(DateTime.Now)
         {
         }
     }
@@ -20,5 +20,10 @@ namespace buckstore.products.service.application.IntegrationEvents
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+
+        public ProductsFromOrderDto()
+        {
+
+        }
     }
 }
