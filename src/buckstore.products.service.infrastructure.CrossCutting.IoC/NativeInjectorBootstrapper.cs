@@ -4,8 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using buckstore.products.service.domain.SeedWork;
 using buckstore.products.service.domain.Exceptions;
 using buckstore.products.service.infrastructure.Data.Context;
+using buckstore.products.service.application.IntegrationEvents;
 using buckstore.products.service.infrastructure.Data.UnitOfWork;
 using buckstore.products.service.infra.environment.Configurations;
+using buckstore.products.service.bus.MessageBroker.Kafka.Producers;
+using buckstore.products.service.application.Adapters.MessageBroker;
 using buckstore.products.service.domain.Aggregates.ProductAggregate;
 using buckstore.products.service.infrastructure.Data.Repositories.ProductRepository;
 
@@ -17,6 +20,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 		{
 			RegisterData(services);
 			RegisterMediatR(services);
+            RegisterProducers(services);
 			RegisterEnvironment(services, configuration);
 		}
 
@@ -37,5 +41,11 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 		{
 			services.AddSingleton(configuration.GetSection("KafkaConfiguration").Get<KafkaConfiguration>());
 		}
+
+        public static void RegisterProducers(IServiceCollection services)
+        {
+            services.AddScoped<IMessageProducer<StockConfirmationIntegrationEvent>, KafkaProducer<StockConfirmationIntegrationEvent>>();
+            services.AddScoped<IMessageProducer<StockConfirmationFailIntegrationEvent>, KafkaProducer<StockConfirmationFailIntegrationEvent>>();
+        }
 	}
 }

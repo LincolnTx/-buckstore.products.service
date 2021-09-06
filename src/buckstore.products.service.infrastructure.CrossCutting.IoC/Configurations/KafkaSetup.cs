@@ -2,6 +2,7 @@
 using GreenPipes;
 using MassTransit;
 using MassTransit.Registration;
+using MassTransit.KafkaIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,11 +30,11 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
                 {
                     rider.AddConsumers();
                     rider.AddProducers();
-                    
+
                     rider.UsingKafka((ctx, k) =>
                     {
                         k.Host(_kafkaConfiguration.ConnectionString);
-                        
+
                         k.TopicEndpoint<OrderReceivedIntegrationEvent>(_kafkaConfiguration.ProductsFromOrders, _kafkaConfiguration.Group,
                             e =>
                         {
@@ -44,7 +45,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
                                 options.ReplicationFactor = 1;
                             });
                         });
-                        
+
                         k.TopicEndpoint<ProductCreatedIntegrationEvent>(_kafkaConfiguration.ProductsFromManagerCreate, _kafkaConfiguration.ConnectionString,
                             e =>
                         {
@@ -62,7 +63,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
                                 options.ReplicationFactor = 1;
                             });
                         });
-                        
+
                         k.TopicEndpoint<ProductUpdatedIntegrationEvent>(_kafkaConfiguration.ProductsFromManagerUpdate, _kafkaConfiguration.ConnectionString,
                             e =>
                         {
@@ -80,7 +81,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
                                 options.ReplicationFactor = 1;
                             });
                         });
-                        
+
                         k.TopicEndpoint<ProductDeletedIntegrationEvent>(_kafkaConfiguration.ProductsFromManagerDelete, _kafkaConfiguration.ConnectionString,
                             e =>
                         {
@@ -115,7 +116,8 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
 
         private static void AddProducers(this IRiderRegistrationConfigurator rider)
         {
-           // essa api não possui producers ainda
+           rider.AddProducer<StockConfirmationIntegrationEvent>(_kafkaConfiguration.ProductsStockResponseSuccess);
+           rider.AddProducer<StockConfirmationFailIntegrationEvent>(_kafkaConfiguration.ProductsStockResponseFail);
         }
     }
 }

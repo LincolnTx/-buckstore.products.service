@@ -28,11 +28,13 @@
         "JwtSettings__Secret": "b665f456d3ed4bf09a56842e02de8ab7c5f5cc9c138a476e88369ce815effbb5",
         "JwtSettings__Audience": "BuckstoreFrontEnd",
         "JwtSettings__Issuer": "Buckstore",
-        "KafkaConfiguration__ConnectionString": "3.95.32.17:9092",
+        "KafkaConfiguration__ConnectionString": "localhost:9092",
         "KafkaConfiguration__Group": "buckstore",
         "KafkaConfiguration__ProductsToOrders": "products-to-orders",
         "KafkaConfiguration__ProductsFromOrders": "order-to-products",
         "KafkaConfiguration__ProductsFromManagerCreate": "manager-to-products-create",
+        "KafkaConfiguration__ProductsStockResponseSuccess": "product-to-order-stock-success",
+        "KafkaConfiguration__ProductsStockResponseFail": "product-to-order-stock-fail",
         "KafkaConfiguration__ProductsFromManagerUpdate": "manager-to-products-update",
         "KafkaConfiguration__ProductsFromManagerDelete": "manager-to-products-delete"
       }
