@@ -34,6 +34,8 @@
         "KafkaConfiguration__ProductsFromOrders": "order-to-products-stock-confirmation",
         "KafkaConfiguration__ProductsFromManagerCreate": "manager-to-products-create",
         "KafkaConfiguration__ProductsStockResponseSuccess": "product-to-order-stock-success",
+        "KafkaConfiguration__OrderRollbackProducts": "product-to-manager-rollback",
+        "KafkaConfiguration__ManagerRollbackProducts": "order-to-products-rollback",
         "KafkaConfiguration__ProductsStockResponseFail": "product-to-order-stock-fail",
         "KafkaConfiguration__ProductsFromManagerUpdate": "manager-to-products-update",
         "KafkaConfiguration__ProductsFromManagerDelete": "manager-to-products-delete"
