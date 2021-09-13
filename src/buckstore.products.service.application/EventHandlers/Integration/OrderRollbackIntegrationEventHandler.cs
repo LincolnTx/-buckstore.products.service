@@ -35,11 +35,7 @@ namespace buckstore.products.service.application.EventHandlers.Integration
                 await _bus.Publish(new ExceptionNotification("012",
                     "Erro ao realizar rollback em um ou mais produtos")
                     , cancellationToken);
-                return;
             }
-
-            await _bus.Publish(new ProductRollbackIntegrationEvent(notification.Products),
-                cancellationToken);
         }
     }
 }
