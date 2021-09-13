@@ -46,6 +46,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
         {
             services.AddScoped<IMessageProducer<StockConfirmationIntegrationEvent>, KafkaProducer<StockConfirmationIntegrationEvent>>();
             services.AddScoped<IMessageProducer<StockConfirmationFailIntegrationEvent>, KafkaProducer<StockConfirmationFailIntegrationEvent>>();
+            services.AddScoped<IMessageProducer<ProductRollbackIntegrationEvent>, KafkaProducer<ProductRollbackIntegrationEvent>>();
         }
 	}
 }
