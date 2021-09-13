@@ -137,6 +137,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
         {
            rider.AddProducer<StockConfirmationIntegrationEvent>(_kafkaConfiguration.ProductsStockResponseSuccess);
            rider.AddProducer<StockConfirmationFailIntegrationEvent>(_kafkaConfiguration.ProductsStockResponseFail);
+           rider.AddProducer<ProductRollbackIntegrationEvent>(_kafkaConfiguration.ManagerRollbackProducts);
         }
     }
 }
