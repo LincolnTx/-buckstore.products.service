@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace buckstore.products.service.application.IntegrationEvents
 {
@@ -14,7 +15,7 @@ namespace buckstore.products.service.application.IntegrationEvents
 
         public ProductCreatedIntegrationEvent() : base(DateTime.Now)
         {
-           
+
         }
     }
 }
