@@ -22,24 +22,14 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
 
         protected Product() { }
 
-        public Product(string name, string description, decimal price, int stock, int categoryId)
+        public Product(string name, string description, decimal price, int stock, int categoryId, List<ProductImage> images)
         {
             _name = name;
             _description = description;
             _price = price;
             _stockQuantity = stock;
             _categoryId = categoryId;
-            Category = ProductCategory.FromId(_categoryId);
-            Images = new List<ProductImage>();
-        }
-
-        public void HandleProductImages(IEnumerable<byte[]> images)
-        {
-            foreach (var currentImage in images)
-            {
-                var productImage = new ProductImage(currentImage);
-                Images.Add(productImage);
-            }
+            Images = images;
         }
 
         public void AddStock(int quantity)

@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using buckstore.products.service.domain.SeedWork;
 using buckstore.products.service.domain.Exceptions;
 using buckstore.products.service.application.IntegrationEvents;
@@ -13,20 +15,27 @@ namespace buckstore.products.service.application.EventHandlers.Integration
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _uow;
         private readonly IMediator _bus;
+        private readonly IMapper _mapper;
 
-        public ProductCreatedIntegrationEventHandler(IProductRepository productRepository, IUnitOfWork uow, IMediator bus)
+        public ProductCreatedIntegrationEventHandler(IProductRepository productRepository, IUnitOfWork uow, IMediator bus, IMapper mapper)
         {
             _productRepository = productRepository;
             _uow = uow;
             _bus = bus;
+            _mapper = mapper;
         }
 
         public async Task Handle(ProductCreatedIntegrationEvent notification, CancellationToken cancellationToken)
         {
-            var prouct = new Product(notification.Name, notification.Description, notification.Price,
-                notification.Quantity, notification.CategoryId);
+            var imagesCollections = _productRepository.GetProductImagesFromMongo(notification.ImagesId);
 
-            _productRepository.Add(prouct);
+            var productImages = _mapper.Map<List<ProductImage>>(imagesCollections);
+
+            var product = new Product(notification.Name, notification.Description, notification.Price,
+                notification.Quantity, notification.CategoryId, productImages);
+
+
+            _productRepository.Add(product);
 
             if (!await _uow.Commit())
             {

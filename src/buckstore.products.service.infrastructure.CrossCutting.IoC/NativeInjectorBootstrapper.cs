@@ -29,7 +29,8 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 			services.AddDbContext<ApplicationDbContext>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IProductRepository, ProductRepository>();
-		}
+            services.AddSingleton<MongoDbContext>();
+        }
 
 		public static void RegisterMediatR(IServiceCollection services)
 		{
