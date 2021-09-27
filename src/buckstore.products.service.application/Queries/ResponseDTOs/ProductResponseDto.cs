@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using buckstore.products.service.application.Queries.ViewModels;
 
@@ -15,6 +16,7 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
         public string Category { get; set; }
         public decimal AverageRate { get; set; }
         public List<ProductRateDto> ProductEvaluations { get; set; }
+        public List<string> Images { get; set; }
 
         public ProductResponseDto(FindProductWithRateVW product)
         {
@@ -25,11 +27,17 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
             CategoryId = product.categoryId;
             Category = product.category;
             ProductEvaluations = new List<ProductRateDto>();
+            Images = new List<string>();
         }
 
         public void MergeRate(Guid rateId, double rateValue, string comment, string username, string surname)
         {
             ProductEvaluations.Add(new ProductRateDto(rateId, rateValue, comment, username, surname));
+        }
+
+        public void SetImagesUrl(IEnumerable<string> images)
+        {
+            Images.AddRange(images);
         }
     }
 
