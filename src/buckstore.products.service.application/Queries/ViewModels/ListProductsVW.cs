@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace buckstore.products.service.application.Queries.ViewModels
 {
@@ -11,5 +13,6 @@ namespace buckstore.products.service.application.Queries.ViewModels
         public int stock_quantity { get; set; }
         public int categoryId { get; set; }
         public string category { get; set; }
+        public List<string> imagesUrl { get; set; }
     }
 }

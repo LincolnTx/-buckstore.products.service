@@ -29,48 +29,44 @@ namespace buckstore.products.service.application.QueryHandlers
 
         public async Task<ProductResponseDto> Handle(FindProductByIdQuery request, CancellationToken cancellationToken)
         {
-            using (var dbConnection = DbConnection)
+            using var dbConnection = DbConnection;
+            double averageRate = 0;
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
+            var sqlCommand = BuildSqlCommand();
+
+            try
             {
-                double averageRate = 0;
-                DefaultTypeMap.MatchNamesWithUnderscores = true;
-                var sqlCommand = BuildSqlCommand();
-
-                // verificar de add nome do usuario no coment/rate
-
-                try
+                var images = await FindImages(dbConnection, request.ProductCode);
+                var data = await dbConnection.QueryAsync<FindProductWithRateVW>(sqlCommand, new
                 {
-                    var images = await FindImages(dbConnection, request.ProductCode);
-                    var data = await dbConnection.QueryAsync<FindProductWithRateVW>(sqlCommand, new
-                    {
-                        productCode = request.ProductCode
-                    });
+                    productCode = request.ProductCode
+                });
 
-                    var findProductWithRateVws = data.ToList();
-                    var product = _mapper.Map<ProductResponseDto>(findProductWithRateVws.First());
-                    product.SetImagesUrl(images);
-                    if (findProductWithRateVws.ToList().First().RateId == Guid.Empty)
-                    {
-                        product.AverageRate = new decimal(0);
-                        return product;
-                    }
-                    foreach (var item in findProductWithRateVws.ToList())
-                    {
-                        product.MergeRate(item.RateId,item.RateValue, item.Comment, item.UserName);
-                        averageRate += item.RateValue;
-                    }
-
-                    product.AverageRate = new decimal(averageRate / findProductWithRateVws.ToList().Count);
-
+                var findProductWithRateVws = data.ToList();
+                var product = _mapper.Map<ProductResponseDto>(findProductWithRateVws.First());
+                product.SetImagesUrl(images);
+                if (findProductWithRateVws.ToList().First().RateId == Guid.Empty)
+                {
+                    product.AverageRate = new decimal(0);
                     return product;
                 }
-                catch (Exception e)
+                foreach (var item in findProductWithRateVws.ToList())
                 {
-                    await _bus.Publish(new ExceptionNotification("002",
-                        "Produto não encontrado. É possível que o código de produto seja inválido",
-                        "productCode"), CancellationToken.None);
-
-                    return null;
+                    product.MergeRate(item.RateId,item.RateValue, item.Comment, item.UserName);
+                    averageRate += item.RateValue;
                 }
+
+                product.AverageRate = new decimal(averageRate / findProductWithRateVws.ToList().Count);
+
+                return product;
+            }
+            catch (Exception e)
+            {
+                await _bus.Publish(new ExceptionNotification("002",
+                    "Produto não encontrado. É possível que o código de produto seja inválido",
+                    "productCode"), CancellationToken.None);
+
+                return null;
             }
         }
 
