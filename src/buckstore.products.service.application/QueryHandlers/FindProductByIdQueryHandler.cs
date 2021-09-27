@@ -47,14 +47,20 @@ namespace buckstore.products.service.application.QueryHandlers
 
                     var findProductWithRateVws = data.ToList();
                     var product = _mapper.Map<ProductResponseDto>(findProductWithRateVws.First());
+                    product.SetImagesUrl(images);
+                    if (findProductWithRateVws.ToList().First().RateId == Guid.Empty)
+                    {
+                        product.AverageRate = new decimal(0);
+                        return product;
+                    }
                     foreach (var item in findProductWithRateVws.ToList())
                     {
-                        product.MergeRate(item.RateId,item.RateValue, item.Comment, item.username, item.surname);
+                        product.MergeRate(item.RateId,item.RateValue, item.Comment, item.UserName);
                         averageRate += item.RateValue;
                     }
 
                     product.AverageRate = new decimal(averageRate / findProductWithRateVws.ToList().Count);
-                    product.SetImagesUrl(images);
+
                     return product;
                 }
                 catch (Exception e)
@@ -72,7 +78,7 @@ namespace buckstore.products.service.application.QueryHandlers
         {
             var command = new StringBuilder("select p.\"Id\" , p.description , p.price , p.stock_quantity ,");
             command.Append("pc.id \"_categoryId\", pc.description as category, pr.\"RateValue\", pr.\"Comment\", ");
-            command.Append("pr.\"Id\" as RateId ");
+            command.Append("pr.\"Id\" as RateId, pr.\"UserName\" ");
             command.Append("from products.product p ");
             command.Append("left join products.product_category pc on p.\"_categoryId\" = pc.id ");
             command.Append("left JOIN products.\"ProductRate\" pr on pr.product_id = p.\"Id\" ");

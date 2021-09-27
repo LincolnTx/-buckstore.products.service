@@ -10,7 +10,8 @@ namespace buckstore.products.service.application.Commands
         public double RatePoints { get; set; }
         public string Comment { get; set; }
         public Guid UserId { get; set; }
-        
+        public string UserName { get; set; }
+
         public override bool IsValid()
         {
             ValidationResult = new AddProductRateValidations().Validate(this);

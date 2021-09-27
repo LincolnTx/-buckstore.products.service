@@ -14,7 +14,7 @@ namespace buckstore.products.service.application.CommandHandlers
         public AddProductRateCommandHandler(IUnitOfWork uow,
             IMediator bus,
             INotificationHandler<ExceptionNotification> notifications,
-            IProductRepository productRepository) 
+            IProductRepository productRepository)
             : base(uow, bus, notifications)
         {
             _productRepository = productRepository;
@@ -34,11 +34,11 @@ namespace buckstore.products.service.application.CommandHandlers
             {
                 await _bus.Publish(new ExceptionNotification("001", "Produto informado não encontrato."),
                     CancellationToken.None);
-                
+
                 return false;
             }
             var evaluation = product.FindEvaluateByUserId(request.UserId);
-            var userEvaluation = new ProductRate(request.RatePoints, request.Comment, request.UserId);
+            var userEvaluation = new ProductRate(request.RatePoints, request.Comment, request.UserId, request.UserName);
 
             if (evaluation != null)
             {
@@ -48,11 +48,11 @@ namespace buckstore.products.service.application.CommandHandlers
 
             if (await Commit())
                 return true;
-            
+
             await _bus.Publish(new ExceptionNotification("002",
                     "Algo de errado aconteceu ao adicionar sua avaliaçõa! Tente mais tarde."),
                 CancellationToken.None);
-            
+
             return false;
         }
     }

@@ -12,13 +12,13 @@ namespace buckstore.products.service.api.v1.Controllers
     public class ProductController : BaseController
     {
         private readonly IMediator _mediator;
-        
-        public ProductController(INotificationHandler<ExceptionNotification> notifications, IMediator mediator) 
+
+        public ProductController(INotificationHandler<ExceptionNotification> notifications, IMediator mediator)
             : base(notifications)
         {
             _mediator = mediator;
         }
-        
+
         [HttpGet("list")]
         public async Task<IActionResult> ListProducts([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
@@ -40,7 +40,10 @@ namespace buckstore.products.service.api.v1.Controllers
         public async Task<IActionResult> AddProductRate([FromBody] AddProductRateCommand productRateCommand)
         {
             var userId = Guid.Parse(GetTokenClaim("id"));
-            productRateCommand.UserId = userId; 
+            var userName = GetTokenClaim("name");
+            productRateCommand.UserId = userId;
+            productRateCommand.UserName = userName;
+
             var response = await _mediator.Send(productRateCommand);
 
             return Response(200, response);

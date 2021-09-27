@@ -19,9 +19,18 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC.Configurati
 					Description = "Api responsável pela interações entre cliente e produtos da loja BuckStore",
 					Contact = new OpenApiContact { Name = "Lincoln Teixeira", Email = "lincolnsf98@gmail.com" }
 				});
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Token JWT de autorização Scheme Bearer",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
 			});
 		}
-		
+
 		public static void UseSwaggerSetup(this IApplicationBuilder app)
 		{
 			if (app == null) throw new ArgumentNullException(nameof(app));

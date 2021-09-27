@@ -8,17 +8,15 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
         public double RateValue { get; private set; }
         public string Comment { get; private set; }
         public Guid UserId { get; private set; }
+        public string UserName { get; set; }
 
-        public ProductRate()
-        {
-            Id = new Guid();
-        }
-        public ProductRate(double rateValue, string comment, Guid userId)
+        public ProductRate(double rateValue, string comment, Guid userId, string userName)
         {
             Id = new Guid();
             RateValue = rateValue;
             Comment = comment;
             UserId = userId;
+            UserName = userName;
         }
     }
 }

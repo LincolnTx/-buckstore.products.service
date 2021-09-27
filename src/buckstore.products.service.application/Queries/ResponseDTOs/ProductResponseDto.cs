@@ -30,9 +30,9 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
             Images = new List<string>();
         }
 
-        public void MergeRate(Guid rateId, double rateValue, string comment, string username, string surname)
+        public void MergeRate(Guid rateId, double rateValue, string comment, string username)
         {
-            ProductEvaluations.Add(new ProductRateDto(rateId, rateValue, comment, username, surname));
+            ProductEvaluations.Add(new ProductRateDto(rateId, rateValue, comment, username));
         }
 
         public void SetImagesUrl(IEnumerable<string> images)
@@ -47,15 +47,13 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
         public double RateValue { get; set; }
         public string Comment { get; set; }
         public string UserName { get; set; }
-        public string Surname { get; set; }
 
-        public ProductRateDto(Guid rateId, double rateValue, string comment, string userName, string surname)
+        public ProductRateDto(Guid rateId, double rateValue, string comment, string userName)
         {
             RateId = rateId;
             RateValue = rateValue;
             Comment = comment;
             UserName = userName;
-            Surname = surname;
         }
     }
 }
