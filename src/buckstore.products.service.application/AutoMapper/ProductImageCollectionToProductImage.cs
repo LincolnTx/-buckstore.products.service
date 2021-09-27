@@ -8,7 +8,7 @@ namespace buckstore.products.service.application.AutoMapper
         public ProductImageCollectionToProductImage()
         {
             CreateMap<ProductsImagesCollection, ProductImage>()
-                .ConvertUsing(src => new ProductImage(Guid.Parse(src.ImageId), src.Image));
+                .ConvertUsing(src => new ProductImage(Guid.Parse(src.ImageId), src.Image, src.ContentType));
         }
     }
 }
