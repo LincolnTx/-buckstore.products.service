@@ -64,7 +64,7 @@ namespace buckstore.products.service.application.QueryHandlers
                         if (image.product_id == product.Id)
                         {
                             var base64 = Convert.ToBase64String(image.Image, 0, image.Image.Length);
-                            var urlImage = $"data {image.ContentType};base64,${base64}";
+                            var urlImage = $"data:{image.ContentType};base64,{base64}";
                             product.imagesUrl.Add(urlImage);
                         }
                     }

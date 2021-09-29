@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net;
 using MediatR;
 using System.Threading.Tasks;
 using buckstore.products.service.application.Commands;
 using buckstore.products.service.application.Queries;
+using buckstore.products.service.application.Queries.ResponseDTOs;
 using Microsoft.AspNetCore.Mvc;
 using buckstore.products.service.domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +22,7 @@ namespace buckstore.products.service.api.v1.Controllers
         }
 
         [HttpGet("list")]
+        [ProducesResponseType(typeof(ListProductResponse), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> ListProducts([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var queryResponse = await _mediator.Send(new ListProductsQuery(pageNumber, pageSize));
@@ -28,6 +31,7 @@ namespace buckstore.products.service.api.v1.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ProductResponseDto), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromQuery] Guid productCode)
         {
             var response = await _mediator.Send(new FindProductByIdQuery(productCode));

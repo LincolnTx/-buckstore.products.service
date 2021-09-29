@@ -105,7 +105,7 @@ namespace buckstore.products.service.application.QueryHandlers
                 foreach (var image in productImages)
                 {
                     var base64 = Convert.ToBase64String(image.Image, 0, image.Image.Length);
-                    var urlImage = $"data {image.ContentType};base64,${base64}";
+                    var urlImage = $"data:{image.ContentType};base64,{base64}";
                     imagesUrls.Add(urlImage);
                 }
             }
