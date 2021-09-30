@@ -28,6 +28,7 @@ namespace buckstore.products.service.application.Queries.ResponseDTOs
             Category = product.category;
             ProductEvaluations = new List<ProductRateDto>();
             Images = new List<string>();
+            Price = product.price;
         }
 
         public void MergeRate(Guid rateId, double rateValue, string comment, string username)

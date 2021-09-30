@@ -72,7 +72,7 @@ namespace buckstore.products.service.application.QueryHandlers
 
         private static string BuildSqlCommand()
         {
-            var command = new StringBuilder("select p.\"Id\" , p.description , p.price , p.stock_quantity ,");
+            var command = new StringBuilder("select p.\"Id\" , p.name, p.description , p.price , p.stock_quantity ,");
             command.Append("pc.id \"_categoryId\", pc.description as category, pr.\"RateValue\", pr.\"Comment\", ");
             command.Append("pr.\"Id\" as RateId, pr.\"UserName\" ");
             command.Append("from products.product p ");
