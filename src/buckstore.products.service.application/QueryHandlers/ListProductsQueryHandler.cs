@@ -25,8 +25,9 @@ namespace buckstore.products.service.application.QueryHandlers
         {
             using var dbConnection = DbConnection;
             DefaultTypeMap.MatchNamesWithUnderscores = true;
-            const string sqlCommand = "SELECT p.\"Id\", p.description ,p.name, p.price, p.stock_quantity, " +
-                                      "pc.id \"categoryId\", pc.description category FROM products.product p  " +
+            const string sqlCommand = "SELECT p.\"Id\", p.description ,p.name, p.price, p.stock_quantity, c.number_of_products, " +
+                                      "pc.id \"categoryId\", pc.description category " +
+                                      "FROM (select count(p.\"Id\") number_of_products from products.product p) c, products.product p  " +
                                       "LEFT JOIN products.product_category pc " +
                                       "ON p.\"_categoryId\" = pc.id " +
                                       "ORDER BY p.\"Id\" OFFSET @pageNumber ROWS FETCH NEXT @pageSize ROWS ONLY";
@@ -39,7 +40,7 @@ namespace buckstore.products.service.application.QueryHandlers
 
             var listProductsVws = data.ToList();
             await FindImages(dbConnection, listProductsVws);
-            return new ListProductResponse(listProductsVws);
+            return new ListProductResponse(listProductsVws, request.PageSize, listProductsVws[0].number_of_products);
         }
 
         private async Task FindImages(IDbConnection dbConnection, IEnumerable<ListProductsVW> products)
@@ -69,17 +70,6 @@ namespace buckstore.products.service.application.QueryHandlers
                         }
                     }
                 }
-                // if (productImages.Count == 0)
-                // {
-                //     return imagesUrls;
-                // }
-                //
-                // foreach (var image in productImages)
-                // {
-                //     var base64 = Convert.ToBase64String(image.Image, 0, image.Image.Length);
-                //     var urlImage = $"data {image.ContentType};base64,${base64}";
-                //     imagesUrls.Add(image.product_id, urlImage);
-                // }
             }
             catch (Exception e)
             {

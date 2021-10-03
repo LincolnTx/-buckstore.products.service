@@ -13,6 +13,7 @@ namespace buckstore.products.service.application.Queries.ViewModels
         public int stock_quantity { get; set; }
         public int categoryId { get; set; }
         public string category { get; set; }
+        public double number_of_products { get; set; }
         public List<string> imagesUrl { get; set; }
     }
 }
