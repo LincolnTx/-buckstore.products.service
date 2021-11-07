@@ -44,7 +44,7 @@ namespace buckstore.products.service.api.v1.Controllers
         public async Task<IActionResult> AddProductRate([FromBody] AddProductRateCommand productRateCommand)
         {
             var userId = Guid.Parse(GetTokenClaim("id"));
-            var userName = GetTokenClaim("name");
+            var userName = GetTokenClaim("userName");
             productRateCommand.UserId = userId;
             productRateCommand.UserName = userName;
 
