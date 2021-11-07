@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using MediatR;
 using System.Threading.Tasks;
@@ -58,6 +59,15 @@ namespace buckstore.products.service.api.v1.Controllers
         public async Task<IActionResult> DeleteProductRate([FromBody] DeleteProductRateCommand deleteProductRateCommand)
         {
             var response = await _mediator.Send(deleteProductRateCommand);
+
+            return Response(200, response);
+        }
+
+        [HttpGet("image")]
+        [Authorize]
+        public async Task<IActionResult> GetImages([FromQuery] List<Guid> productId)
+        {
+            var response = await _mediator.Send(new FindProductImagesQuery(productId));
 
             return Response(200, response);
         }
