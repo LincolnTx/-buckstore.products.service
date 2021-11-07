@@ -29,8 +29,8 @@ namespace buckstore.products.service.application.QueryHandlers
             DefaultTypeMap.MatchNamesWithUnderscores = true;
             const string sqlCommand =
                 "SELECT DISTINCT ON (p2.product_id) p2.product_id, p2.\"Image\", p2.\"ContentType\" " +
-                "FROM products.product p LEFT JOIN products.\"ProductImage\" p2 " +
-                "ON p.\"Id\" = any (@ids)";
+                "FROM products.product p CROSS JOIN products.\"ProductImage\" p2 " +
+                "WHERE p2.product_id = ANY(@ids)";
 
             try
             {
@@ -39,7 +39,7 @@ namespace buckstore.products.service.application.QueryHandlers
                     ids = request.ProductIds.ToArray()
                 });
 
-                return BuildResponse(data);
+                return _mapper.Map<IEnumerable<ProductsImageDto>>(data);
             }
             catch (Exception e)
             {
@@ -50,22 +50,6 @@ namespace buckstore.products.service.application.QueryHandlers
 
                 return default;
             }
-        }
-
-        public IEnumerable<ProductsImageDto> BuildResponse(IEnumerable<ProductImagesVw> resultData)
-        {
-            var productsImages = new List<ProductsImageDto>();
-
-            foreach (var item in resultData)
-            {
-                if (item.ContentType !=  null && item.Image != null)
-                {
-                    var productImage = _mapper.Map<ProductsImageDto>(item);
-                    productsImages.Add(productImage);
-                }
-            }
-
-            return productsImages;
         }
     }
 }
