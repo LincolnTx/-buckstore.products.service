@@ -17,6 +17,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <Folder Include="Commands\Responses" />
       <Folder Include="EventHandlers\Domain" />
     </ItemGroup>
 

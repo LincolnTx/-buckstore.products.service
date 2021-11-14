@@ -10,7 +10,9 @@ using buckstore.products.service.infra.environment.Configurations;
 using buckstore.products.service.bus.MessageBroker.Kafka.Producers;
 using buckstore.products.service.application.Adapters.MessageBroker;
 using buckstore.products.service.domain.Aggregates.ProductAggregate;
+using buckstore.products.service.domain.Aggregates.UserFavoriteAggregate;
 using buckstore.products.service.infrastructure.Data.Repositories.ProductRepository;
+using buckstore.products.service.infrastructure.Data.Repositories.UserFavoritesRepository;
 
 namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 {
@@ -30,6 +32,7 @@ namespace buckstore.products.service.infrastructure.CrossCutting.IoC
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IProductRepository, ProductRepository>();
             services.AddSingleton<MongoDbContext>();
+            services.AddScoped<IUserFavoritesRepository, UserFavoritesRepository>();
         }
 
 		public static void RegisterMediatR(IServiceCollection services)

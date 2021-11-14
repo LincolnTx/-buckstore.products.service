@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using buckstore.products.service.domain.Aggregates.ProductAggregate;
+using buckstore.products.service.domain.Aggregates.UserFavoriteAggregate;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace buckstore.products.service.infrastructure.Data.Mappings.Database
