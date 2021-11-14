@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using MediatR;
 using System.Threading.Tasks;
+using buckstore.products.service.api.v1.Dtos.Request;
 using buckstore.products.service.application.Commands;
 using buckstore.products.service.application.Queries;
 using buckstore.products.service.application.Queries.ResponseDTOs;
@@ -78,6 +79,16 @@ namespace buckstore.products.service.api.v1.Controllers
         {
             var userId = Guid.Parse(GetTokenClaim("id"));
             var response = await _mediator.Send(new ListFavoritesByUserQuery { UserId = userId });
+
+            return Response(200, response);
+        }
+
+        [HttpPost("favorites")]
+        [Authorize]
+        public async Task<IActionResult> AddFavorite([FromBody] AddFavoriteRequestDto request)
+        {
+            var userId = Guid.Parse(GetTokenClaim("id"));
+            var response = await _mediator.Send(new NewFavoriteCommand(userId, request.ProductId));
 
             return Response(200, response);
         }
