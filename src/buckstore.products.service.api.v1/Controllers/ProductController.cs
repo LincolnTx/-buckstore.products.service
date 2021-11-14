@@ -71,5 +71,15 @@ namespace buckstore.products.service.api.v1.Controllers
 
             return Response(200, response);
         }
+
+        [HttpGet("favorites")]
+        [Authorize]
+        public async Task<IActionResult> GetUserFavorites()
+        {
+            var userId = Guid.Parse(GetTokenClaim("id"));
+            var response = await _mediator.Send(new ListFavoritesByUserQuery { UserId = userId });
+
+            return Response(200, response);
+        }
     }
 }
