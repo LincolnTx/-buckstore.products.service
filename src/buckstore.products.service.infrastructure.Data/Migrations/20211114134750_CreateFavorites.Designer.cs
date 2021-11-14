@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using buckstore.products.service.infrastructure.Data.Context;
@@ -9,9 +10,10 @@ using buckstore.products.service.infrastructure.Data.Context;
 namespace buckstore.products.service.infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211114134750_CreateFavorites")]
+    partial class CreateFavorites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,21 +107,6 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                             Id = 6,
                             Name = "Office"
                         });
-                });
-
-            modelBuilder.Entity("buckstore.products.service.domain.Aggregates.ProductAggregate.ProductFavorites", b =>
-                {
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("product_id");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("ProductId", "UserId");
-
-                    b.ToTable("products_favorites");
                 });
 
             modelBuilder.Entity("buckstore.products.service.domain.Aggregates.ProductAggregate.Product", b =>
