@@ -41,8 +41,8 @@ namespace buckstore.products.service.api.v1.Controllers
             return Response(200, response);
         }
 
-        [HttpPut("evaluate")]
         [Authorize]
+        [HttpPut("evaluate")]
         public async Task<IActionResult> AddProductRate([FromBody] AddProductRateCommand productRateCommand)
         {
             var userId = Guid.Parse(GetTokenClaim("id"));
@@ -55,8 +55,8 @@ namespace buckstore.products.service.api.v1.Controllers
             return Response(200, response);
         }
 
-        [HttpDelete("evaluate/delete")]
         [Authorize]
+        [HttpDelete("evaluate/delete")]
         public async Task<IActionResult> DeleteProductRate([FromBody] DeleteProductRateCommand deleteProductRateCommand)
         {
             var response = await _mediator.Send(deleteProductRateCommand);
@@ -64,8 +64,8 @@ namespace buckstore.products.service.api.v1.Controllers
             return Response(200, response);
         }
 
-        [HttpGet("image")]
         [Authorize]
+        [HttpGet("image")]
         public async Task<IActionResult> GetImages([FromQuery] List<Guid> productId)
         {
             var response = await _mediator.Send(new FindProductImagesQuery(productId));
@@ -73,8 +73,8 @@ namespace buckstore.products.service.api.v1.Controllers
             return Response(200, response);
         }
 
-        [HttpGet("favorites")]
         [Authorize]
+        [HttpGet("favorites")]
         public async Task<IActionResult> GetUserFavorites()
         {
             var userId = Guid.Parse(GetTokenClaim("id"));
@@ -83,12 +83,22 @@ namespace buckstore.products.service.api.v1.Controllers
             return Response(200, response);
         }
 
-        [HttpPost("favorites")]
         [Authorize]
-        public async Task<IActionResult> AddFavorite([FromBody] AddFavoriteRequestDto request)
+        [HttpPost("favorites")]
+        public async Task<IActionResult> AddFavorite([FromBody] FavoriteBaseRequestDto request)
         {
             var userId = Guid.Parse(GetTokenClaim("id"));
             var response = await _mediator.Send(new NewFavoriteCommand(userId, request.ProductId));
+
+            return Response(200, response);
+        }
+
+        [Authorize]
+        [HttpDelete("favorites/{productId}")]
+        public async Task<IActionResult> RemoveFavorite(string productId)
+        {
+            var userId = Guid.Parse(GetTokenClaim("id"));
+            var response = await _mediator.Send(new RemoveFavoriteCommand(userId, Guid.Parse(productId)));
 
             return Response(200, response);
         }
