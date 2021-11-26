@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using buckstore.products.service.application.IntegrationEvents;
 using buckstore.products.service.domain.Aggregates.ProductAggregate;
 using buckstore.products.service.domain.Exceptions;
@@ -14,14 +13,12 @@ namespace buckstore.products.service.application.EventHandlers.Integration
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _uow;
         private readonly IMediator _bus;
-        private readonly IMapper _mapper;
 
-        public ProductUpdatedIntegrationEventHandler(IProductRepository productRepository, IUnitOfWork uow, IMediator bus, IMapper mapper)
+        public ProductUpdatedIntegrationEventHandler(IProductRepository productRepository, IUnitOfWork uow, IMediator bus)
         {
             _productRepository = productRepository;
             _uow = uow;
             _bus = bus;
-            _mapper = mapper;
         }
 
         public override async Task Handle(ProductUpdatedIntegrationEvent notification, CancellationToken cancellationToken)
