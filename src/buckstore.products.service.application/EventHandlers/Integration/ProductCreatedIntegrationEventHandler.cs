@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,9 +28,13 @@ namespace buckstore.products.service.application.EventHandlers.Integration
 
         public async Task Handle(ProductCreatedIntegrationEvent notification, CancellationToken cancellationToken)
         {
-            var imagesCollections = _productRepository.GetProductImagesFromMongo(notification.ImagesId);
+            var productImages = new List<ProductImage>();
+            if (notification.ImagesId.Any() && notification.ImagesId.First() != "none")
+            {
+                var imagesCollections = _productRepository.GetProductImagesFromMongo(notification.ImagesId);
 
-            var productImages = _mapper.Map<List<ProductImage>>(imagesCollections);
+                productImages = _mapper.Map<List<ProductImage>>(imagesCollections);
+            }
 
             var product = new Product(notification.Id, notification.Name, notification.Description, notification.Price,
                 notification.Quantity, notification.CategoryId, productImages);
