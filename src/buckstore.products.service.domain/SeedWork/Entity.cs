@@ -17,9 +17,13 @@ namespace buckstore.products.service.domain.SeedWork
 		protected void SetId()
 		{
 			_Id = Guid.NewGuid();
-		} 
-		
-			
+		}
+
+        protected void SetId(Guid id)
+        {
+            _Id = id;
+        }
+
 
 		#region Entity
 		public bool IsTransient()
@@ -52,10 +56,10 @@ namespace buckstore.products.service.domain.SeedWork
 			{
 				if (!_requestedHashCode.HasValue)
 					_requestedHashCode = this.Id.GetHashCode() ^ 31;
-				
+
 				return _requestedHashCode.Value;
 			}
-			else 
+			else
 				return base.GetHashCode();
 		}
 

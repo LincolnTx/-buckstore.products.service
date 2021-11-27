@@ -31,7 +31,7 @@ namespace buckstore.products.service.application.EventHandlers.Integration
 
             var productImages = _mapper.Map<List<ProductImage>>(imagesCollections);
 
-            var product = new Product(notification.Name, notification.Description, notification.Price,
+            var product = new Product(notification.Id, notification.Name, notification.Description, notification.Price,
                 notification.Quantity, notification.CategoryId, productImages);
 
 

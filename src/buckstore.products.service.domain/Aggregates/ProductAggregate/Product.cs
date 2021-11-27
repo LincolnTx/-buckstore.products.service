@@ -22,8 +22,9 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
 
         protected Product() { }
 
-        public Product(string name, string description, decimal price, int stock, int categoryId, List<ProductImage> images)
+        public Product(Guid id, string name, string description, decimal price, int stock, int categoryId, List<ProductImage> images)
         {
+            SetId(id);
             _name = name;
             _description = description;
             _price = price;
