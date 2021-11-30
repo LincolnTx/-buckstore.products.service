@@ -8,6 +8,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-EXPOSE 5000
-EXPOSE 5001
-ENTRYPOINT ["dotnet", "buckstore.products.service.api.v1.dll"]
+# EXPOSE 5000
+# EXPOSE 5001
+# ENTRYPOINT ["dotnet", "buckstore.products.service.api.v1.dll"]
+# utilizando este comando CMD deviado ao heroku
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet buckstore.products.service.api.v1.dll
