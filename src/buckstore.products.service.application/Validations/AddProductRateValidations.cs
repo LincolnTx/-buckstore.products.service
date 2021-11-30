@@ -5,13 +5,22 @@ namespace buckstore.products.service.application.Validations
 {
     public class AddProductRateValidations : AbstractValidator<AddProductRateCommand>
     {
-        
+
         public AddProductRateValidations()
         {
            ValidateProductCode();
            ValidateRatePoints();
            ValidateComment();
            ValidateUserId();
+           ValidateUserName();
+        }
+
+        private void ValidateUserName()
+        {
+            RuleFor(rate => rate.UserName)
+                .NotEmpty()
+                .WithMessage("O Nome do usuário deve ser informado")
+                .WithErrorCode("002");
         }
 
         private void ValidateProductCode()
@@ -31,7 +40,7 @@ namespace buckstore.products.service.application.Validations
                 .NotEmpty()
                 .WithMessage("Para adicionar uma avaliação o puntuação é obrigatória")
                 .WithErrorCode("003")
-                .ExclusiveBetween(1, 5)
+                .InclusiveBetween(1, 5)
                 .WithMessage("O valor da nota deve ser algo entre 1 e 5")
                 .WithErrorCode("004");
         }
@@ -53,6 +62,6 @@ namespace buckstore.products.service.application.Validations
                 .Must(candidate => CommonValidations.GuidValidator(candidate.ToString()));
         }
 
-        
+
     }
 }

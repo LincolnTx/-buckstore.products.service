@@ -37,7 +37,14 @@ namespace buckstore.products.service.infrastructure.Data.Mappings.Database
                 pr.Property<Guid>("Id");
                 pr.HasKey("Id");
             });
-            
+
+            builder.OwnsMany(product => product.Images, pr =>
+            {
+                pr.WithOwner().HasForeignKey("product_id");
+                pr.Property<Guid>("Id");
+                pr.HasKey("Id");
+            });
+
             builder.Property(product => product.Stock)
                 .HasField("_stockQuantity")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)

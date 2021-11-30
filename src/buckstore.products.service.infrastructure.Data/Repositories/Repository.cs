@@ -8,6 +8,7 @@ namespace buckstore.products.service.infrastructure.Data.Repositories
 	{
 		protected readonly ApplicationDbContext _applicationDbContext;
 		protected readonly DbSet<TEntity> _dbSet;
+        protected MongoDbContext _mongoDbContext;
 
 		public Repository( ApplicationDbContext applicationDbContext)
 		{

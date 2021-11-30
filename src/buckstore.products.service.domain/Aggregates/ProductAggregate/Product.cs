@@ -18,17 +18,19 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
         private int _categoryId;
         public ProductCategory Category { get; private set; }
         public ICollection<ProductRate> RateList { get; private set; }
-        
+        public ICollection<ProductImage> Images { get; private set; }
+
         protected Product() { }
 
-        public Product(string name, string description, decimal price, int stock, int categoryId)
+        public Product(Guid id, string name, string description, decimal price, int stock, int categoryId, List<ProductImage> images)
         {
+            SetId(id);
             _name = name;
             _description = description;
             _price = price;
             _stockQuantity = stock;
             _categoryId = categoryId;
-            Category = ProductCategory.FromId(_categoryId);
+            Images = images;
         }
 
         public void AddStock(int quantity)
@@ -59,7 +61,7 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
             _stockQuantity = stock;
             _categoryId = categoryId;
         }
-        
+
         public void AddEvaluationToProduct(ProductRate rate)
         {
             RateList.Add(rate);
@@ -73,7 +75,7 @@ namespace buckstore.products.service.domain.Aggregates.ProductAggregate
                 RateList.Remove(removeItem);
                 return;
             }
-            
+
             throw new NullReferenceException("Esse usuário não tem uma avaliação para esse produto");
         }
 

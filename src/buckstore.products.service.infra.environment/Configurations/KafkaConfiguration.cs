@@ -11,5 +11,9 @@ namespace buckstore.products.service.infra.environment.Configurations
         public string ProductsFromManagerCreate {get;set;}
         public string ProductsFromManagerUpdate {get;set;}
         public string ProductsFromManagerDelete {get;set;}
+        public string ProductsStockResponseSuccess { get; set; }
+        public string ProductsStockResponseFail { get; set; }
+        public string OrderRollbackProducts { get; set; }
+        public string ManagerRollbackProducts { get; set; }
     }
 }

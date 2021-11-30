@@ -15,9 +15,9 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("buckstore.products.service.domain.Aggregates.ProductAggregate.Product", b =>
                 {
@@ -26,22 +26,22 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description")
+                        .HasMaxLength(300)
                         .HasColumnType("character varying(300)")
-                        .HasMaxLength(300);
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.Property<double>("Price")
-                        .HasColumnName("price")
-                        .HasColumnType("double precision");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
 
                     b.Property<int>("Stock")
-                        .HasColumnName("stock_quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("stock_quantity");
 
                     b.Property<int>("_categoryId")
                         .HasColumnType("integer");
@@ -60,15 +60,15 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
+                        .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("description")
+                        .HasMaxLength(80)
                         .HasColumnType("character varying(80)")
-                        .HasMaxLength(80);
+                        .HasColumnName("description");
 
                     b.HasKey("Id");
 
@@ -107,6 +107,21 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("buckstore.products.service.domain.Aggregates.ProductAggregate.ProductFavorites", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.ToTable("products_favorites");
+                });
+
             modelBuilder.Entity("buckstore.products.service.domain.Aggregates.ProductAggregate.Product", b =>
                 {
                     b.HasOne("buckstore.products.service.domain.Aggregates.ProductAggregate.ProductCategory", "Category")
@@ -114,6 +129,31 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                         .HasForeignKey("_categoryId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
+
+                    b.OwnsMany("buckstore.products.service.domain.Aggregates.ProductAggregate.ProductImage", "Images", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("ContentType")
+                                .HasColumnType("text");
+
+                            b1.Property<byte[]>("Image")
+                                .HasColumnType("bytea");
+
+                            b1.Property<Guid>("product_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("product_id");
+
+                            b1.ToTable("ProductImage");
+
+                            b1.WithOwner()
+                                .HasForeignKey("product_id");
+                        });
 
                     b.OwnsMany("buckstore.products.service.domain.Aggregates.ProductAggregate.ProductRate", "RateList", b1 =>
                         {
@@ -130,6 +170,9 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<string>("UserName")
+                                .HasColumnType("text");
+
                             b1.Property<Guid>("product_id")
                                 .HasColumnType("uuid");
 
@@ -142,6 +185,12 @@ namespace buckstore.products.service.infrastructure.Data.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("product_id");
                         });
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Images");
+
+                    b.Navigation("RateList");
                 });
 #pragma warning restore 612, 618
         }
